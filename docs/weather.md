@@ -1,6 +1,15 @@
+---
+theme: [ocean-floor, alt, wide]
+toc: false
+---
+
 # Weather report for Veldhoven, NL
 
 ## Data from [Open-Meteo.com](https://open-meteo.com/)
+
+```js
+import {plot_temp, plot_rain} from "./components/plots.js";
+```
 
 ```js
 const temp_forecast = FileAttachment("./data/temp.json").json();
@@ -11,20 +20,7 @@ const rain_forecast = FileAttachment("./data/rain.json").json();
 ```
 
 ```js
-display(
-  Plot.plot({
-    title: "Hourly temperature forecast",
-    x: {type: "utc", ticks: "day", label: "Time [days]"},
-    y: {grid: true, label: "Degrees (C)"},
-    marks: [
-      Plot.lineY(temp_forecast, {
-        x: "time",
-        y: "temp",
-        stroke: "red"
-        })
-    ]
-  })
-);
+plot_temp(temp_forecast)
 ```
 
 ```js
@@ -39,19 +35,5 @@ rain_forecast_dates = rain_forecast.map(({time, ...rest}) => {
 ```
 
 ```js
-display(
-  Plot.plot({
-    title: "Hourly rain forecast",
-    x: {label: "Time [days]"},
-    y: {grid: true, label: "Rain [mm]"},
-    marks: [
-      Plot.rectY(rain_forecast_dates, {
-        x: "time",
-        interval: d3.utcHour,
-        y: "rain",
-        fill: "green"
-        })
-    ]
-  })
-);
+plot_rain(rain_forecast_dates)
 ```
