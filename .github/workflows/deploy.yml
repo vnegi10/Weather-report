@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: ["main"]
   schedule:
-    cron: "* */6 * * *"
+    - cron: "* */6 * * *"
 
 jobs:
   build:
@@ -36,7 +36,7 @@ jobs:
         with:
           path: docs/.observablehq/cache
           key: data-${{ hashFiles('docs/data/*') }}-${{ steps.date.outputs.date }}
-          
+
       # Cache is considered fresh if it has a later timestamp than data source files
       - if: steps.cache-data.outputs.cache-hit == 'true'
         run: find docs/.observablehq/cache -type f -exec touch {} +
