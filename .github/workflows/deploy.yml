@@ -41,6 +41,9 @@ jobs:
       - name: Fix detected dubious ownership error
         run: |
            git config --global --add safe.directory /github/workspace
+           rm .gitignore
+           git add dist
+           git commit -m 'deploy'
       #    cd dist
       #    git init
       #    git add -A
@@ -54,4 +57,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
           force: true
-          directory: ./dist
+          directory: '.'
