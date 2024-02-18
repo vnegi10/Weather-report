@@ -3,9 +3,13 @@ name: Deploy to GitHub pages
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: ["main"]
+  schedule:
+    - cron: "* */6 * * *"
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
 
     permissions:
@@ -23,13 +27,16 @@ jobs:
           cache-dependency-path: yarn.lock
 
       - run: yarn --frozen-lockfile
+
       - id: date
         run: echo "date=$(TZ=Amsterdam date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+
       - id: cache-data
         uses: actions/cache@v4
         with:
           path: docs/.observablehq/cache
           key: data-${{ hashFiles('docs/data/*') }}-${{ steps.date.outputs.date }}
+
       # Cache is considered fresh if it has a later timestamp than data source files
       - if: steps.cache-data.outputs.cache-hit == 'true'
         run: find docs/.observablehq/cache -type f -exec touch {} +
@@ -38,20 +45,34 @@ jobs:
       - name: Build website
         run: yarn build
 
-      - name: Fix dubious ownership error and copy dist to docs
+      - name: Fix permissions
         run: |
-           git config --local user.email "action@github.com"
-           git config --local user.name "GitHub Action"
-           git config --global --add safe.directory /github/workspace
-           rm -rf docs/*
-           cp -r dist/* docs/
-           git add .
-           git commit -m 'deploy'
-      
-      - name: Force push to destination branch
-        uses: ad-m/github-push-action@v0.8.0
+         chmod -c -R +rX "_site/" | while read line; do
+           echo "::warning title=Invalid file permissions automatically fixed::$line"
+         done
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.MY_PAT }}
-          branch: gh-pages
-          force: true
-          directory: '.'
+          path: "dist/"
+
+  deploy:
+  # Add a dependency to the build job
+    needs: build
+
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+
+    # Deploy to the github-pages environment
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Specify runner + deployment step
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
