@@ -19,9 +19,10 @@ const temp_forecast = FileAttachment("./data/temp.json").json();
 const rain_forecast = FileAttachment("./data/rain.json").json();
 ```
 
-```js
-plot_temp(temp_forecast)
-```
+<!--- Re-render whenever the container resizes --->
+<div class="grid grid-cols-1">
+    <div class="card">${resize((width) => plot_temp(temp_forecast, {width}))} </div>
+</div>
 
 ```js
 // Convert x-axis to Date object so that we make a bar plot later
@@ -34,6 +35,6 @@ rain_forecast_dates = rain_forecast.map(({time, ...rest}) => {
 })
 ```
 
-```js
-plot_rain(rain_forecast_dates)
-```
+<div class="grid grid-cols-1">
+    <div class="card">${resize((width) => plot_rain(rain_forecast_dates, {width}))} </div>
+</div>
