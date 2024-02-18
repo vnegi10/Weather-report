@@ -38,8 +38,9 @@ jobs:
       - name: Build website
         run: yarn build
 
-      #- name: Init new repo in dist folder and commit generated files
-      #  run: |
+      - name: Fix detected dubious ownership error
+        run: |
+           git config --global --add safe.directory /github/workspace
       #    cd dist
       #    git init
       #    git add -A
