@@ -1,7 +1,7 @@
 # Weather report
 
 ```js
-const forecast = FileAttachment("./data/forecast.json").json();
+const forecast = FileAttachment("./data/temp.json").json();
 ```
 
 ```js
