@@ -1,5 +1,5 @@
 ---
-theme: [ocean-floor, alt, wide]
+theme: dashboard
 toc: false
 ---
 
