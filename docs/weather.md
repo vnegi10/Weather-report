@@ -28,16 +28,28 @@ display(
 ```
 
 ```js
+// Convert x-axis to Date object so that we make a bar plot later
+var rain_forecast_dates
+rain_forecast_dates = rain_forecast.map(({time, ...rest}) => {
+  return {
+    time: new Date(time),
+    ...rest
+  };
+})
+```
+
+```js
 display(
   Plot.plot({
     title: "Hourly rain forecast",
-    x: {type: "utc", ticks: "day", label: "Time [days]"},
+    x: {label: "Time [days]"},
     y: {grid: true, label: "Rain [mm]"},
     marks: [
-      Plot.lineY(rain_forecast, {
+      Plot.rectY(rain_forecast_dates, {
         x: "time",
+        interval: d3.utcHour,
         y: "rain",
-        stroke: "white"
+        fill: "green"
         })
     ]
   })
