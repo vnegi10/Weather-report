@@ -1,11 +1,11 @@
 # Weather report
 
 ```js
-const forecast = FileAttachment("./data/temp.json").json();
+const temp_forecast = FileAttachment("./data/temp.json").json();
 ```
 
 ```js
-display(forecast)
+display(temp_forecast)
 ```
 
 ```js
@@ -15,7 +15,7 @@ display(
     x: {type: "utc", ticks: "day", label: "Time [days]"},
     y: {grid: true, label: "Degrees (C)"},
     marks: [
-      Plot.lineY(forecast, {
+      Plot.lineY(temp_forecast, {
         x: "time",
         y: "temp",
         stroke: "red"
