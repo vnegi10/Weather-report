@@ -1,8 +1,8 @@
 import requests as rq
 
 # Set coordinates for Veldhoven
-lat = 5.4060
-long = 51.4176
+lat = 51.4176
+long = 5.4060
 
 URL = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={long}&hourly="
 
