@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: ["main"]
   schedule:
-    - cron: "30 */6 * * *"
+    - cron: "30 */2 * * *"
 
 jobs:
   build:
@@ -28,28 +28,9 @@ jobs:
 
       - run: yarn --frozen-lockfile
 
-      - id: date
-        run: echo "date=$(TZ=Amsterdam date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
-
-      - id: cache-data
-        uses: actions/cache@v4
-        with:
-          path: docs/.observablehq/cache
-          key: data-${{ hashFiles('docs/data/*') }}-${{ steps.date.outputs.date }}
-
-      # Cache is considered fresh if it has a later timestamp than data source files
-      - if: steps.cache-data.outputs.cache-hit == 'true'
-        run: find docs/.observablehq/cache -type f -exec touch {} +
-
       # This step will generate the build data in dist folder
       - name: Build website
         run: yarn build
-
-      - name: Fix permissions
-        run: |
-         chmod -c -R +rX "_site/" | while read line; do
-           echo "::warning title=Invalid file permissions automatically fixed::$line"
-         done
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
