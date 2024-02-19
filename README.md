@@ -1,6 +1,6 @@
 # Weather Report
 
-![Deploy status](https://github.com/vnegi10/Weather-report/actions/workflows/deploy.yml/badge.svg)
+[![Deploy status](https://github.com/vnegi10/Weather-report/actions/workflows/deploy.yml/badge.svg)](https://vnegi10.github.io/Weather-report/weather)
 
 This is an [Observable Framework](https://observablehq.com/framework) project. To start the local preview server, run:
 
