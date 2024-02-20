@@ -16,6 +16,8 @@ forecast_dict = []
 for i in range(len(temp)):
     forecast_dict.append({'time' : time[i],
                           'temp' : temp[i],
-                          'app_temp' : app_temp[i]})
+                          'app_temp' : app_temp[i],
+                          'legend_1' : 'Air temp.',
+                          'legend_2' : 'Feels like'})
 
 json.dump(forecast_dict, sys.stdout)

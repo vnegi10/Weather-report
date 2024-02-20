@@ -12,8 +12,27 @@ export function plot_temp(temp_forecast, {width} = {}) {
         Plot.lineY(temp_forecast, {
           x: "time",
           y: "temp",
-          stroke: "red"
-          })
+          stroke: "red",
+          }),
+        Plot.lineY(temp_forecast, {
+          x: "time",
+          y: "app_temp",
+          stroke: "blue",
+          }),
+        Plot.text(temp_forecast, Plot.selectLast({
+          x: "time",
+          y: "temp",
+          text: "legend_1",
+          textAnchor: "start",
+          dx: 10
+        })),
+        Plot.text(temp_forecast, Plot.selectLast({
+          x: "time",
+          y: "app_temp",
+          text: "legend_2",
+          textAnchor: "start",
+          dx: 10
+        }))
       ]
     });
 
