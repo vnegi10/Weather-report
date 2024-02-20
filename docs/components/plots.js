@@ -23,15 +23,17 @@ export function plot_temp(temp_forecast, {width} = {}) {
           x: "time",
           y: "temp",
           text: "legend_1",
-          textAnchor: "start",
-          dx: 10
+          textAnchor: "middle",
+          dx: 10,
+          fontSize: 12
         })),
         Plot.text(temp_forecast, Plot.selectLast({
           x: "time",
           y: "app_temp",
           text: "legend_2",
-          textAnchor: "start",
-          dx: 10
+          textAnchor: "middle",
+          dx: 10,
+          fontSize: 12
         }))
       ]
     });
